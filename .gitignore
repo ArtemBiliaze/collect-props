@@ -1,0 +1,7 @@
+#Cистемні файли
+.DS_Store
+Thumbs.db
+
+#Папки редактора
+.vscode/
+node_modules/
