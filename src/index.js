@@ -1,30 +1,4 @@
-"use strict";
-const inputsArray = [
-  {
-    type: "text",
-    name: "fname",
-    placeholder: "First name",
-    autocomplete: "name",
-  },
-  {
-    type: "text",
-    name: "lname",
-    placeholder: "Last name",
-    autocomplete: "family-name",
-  },
-  {
-    type: "text",
-    name: "nickname",
-    placeholder: "nickname",
-    autocomplete: "off",
-  },
-  {
-    type: "email",
-    name: "email",
-    placeholder: "Email Address",
-    autocomplete: "email",
-  },
-];
+import { inputsArray } from "./data.js";
 
 const form = document.createElement("form");
 form.className = "form";
@@ -51,10 +25,10 @@ submitButton.type = "submit";
 submitButton.textContent = "OK";
 buttonDiv.appendChild(submitButton);
 
-const canselButton = document.createElement("button");
-canselButton.type = "reset";
-canselButton.textContent = "CANCEL";
-buttonDiv.appendChild(canselButton);
+const cancelButton = document.createElement("button");
+cancelButton.type = "reset";
+cancelButton.textContent = "CANCEL";
+buttonDiv.appendChild(cancelButton);
 
 function createInputsFields(dataObj) {
   const { type, name, placeholder, autocomplete } = dataObj;
@@ -67,40 +41,21 @@ function createInputsFields(dataObj) {
   formColumnInputDiv.append(input);
 }
 
-inputsArray.forEach((i) => createInputsFields(i));
+inputsArray.forEach((input) => createInputsFields(input));
 
-function createInputObj() {
-  const objInfo = {};
-  for (const { name, value, type } of Array.from(form.elements)) {
-    if (type !== "submit" && type !== "reset") {
-      objInfo[name] = value;
-    }
-  }
-  return objInfo;
-}
+const arrInput = [...document.querySelectorAll("input")];
 
 class Person {
-  #email;
-  constructor(data) {
-    this.#email = data.email;
-    delete data.email;
-    Object.assign(this, data);
-  }
-  getEmail() {
-    return this.#email;
+  constructor(...args) {
+    args.forEach(({ name, value }) => (this[name] = value));
   }
 }
 
-function submitClickHandler(e) {
+function submitHandler(e) {
   e.preventDefault();
+  const person = new Person(...arrInput);
 
-  const dataObj = createInputObj();
-  const person = new Person(dataObj);
-
-  localStorage.setItem("lastName", JSON.stringify(person));
+  localStorage.setItem(person.lname, JSON.stringify(person, (key, value) => (key === 'email' || key === "password") ? undefined : value), 2);
   console.log("Saved person : ", person);
-  console.log("Saved email : ", person.getEmail());
 }
-form.addEventListener("submit", submitClickHandler);
-
-console.log(localStorage.getItem("lastName"));
+form.addEventListener("submit", submitHandler);
