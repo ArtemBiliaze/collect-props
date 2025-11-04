@@ -19,9 +19,10 @@ body {
 .form {
   display: flex;
   flex-direction: column;
+  justify-content:space-around;
   align-items: center;
   width: 620px;
-  height: auto;
+  height: 620px;
   background-color: #3ea9f5;
   margin-top: 50px;
   gap: 25px;
@@ -68,4 +69,17 @@ button:hover{
 .button{
     display: flex;
     gap: 80px
+}
+.error-message{
+    visibility: hidden;
+    border: 2px solid red;
+    border-radius: 3px;
+    color: red;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.error-message.invalid{
+    visibility: visible;
 }
