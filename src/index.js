@@ -1,5 +1,7 @@
 import { inputsArray } from "./data.js";
 const emailRegExp = /^\w+\.?\w+@[a-z]{3,8}\.[a-z]{2,5}$/i;
+const passwordRegExp =
+  /^(?=.*[A-Z].*)(?=.*[a-z].*)(?=.*\d.*)(?=.*[!@#$%^&.].*).{8,16}$/;
 
 const form = document.createElement("form");
 form.className = "form";
@@ -32,7 +34,6 @@ buttonDiv.append(cancelButton);
 
 const errorMessage = document.createElement("p");
 errorMessage.classList.add("error-message");
-errorMessage.textContent = "Invalid email";
 form.insertBefore(errorMessage, buttonDiv);
 
 function createInputsFields(dataObj) {
@@ -56,16 +57,39 @@ class Person {
   }
 }
 
-function inputHandler(e) {
-  if (e.target.name === "email") {
-    if (emailRegExp.test(e.target.value)) {
+function updateError(isTargetName, isValid, message) {
+  if (isTargetName) {
+    if (isValid) {
       errorMessage.classList.remove("invalid");
     } else {
       errorMessage.classList.add("invalid");
+      errorMessage.textContent = message;
     }
   }
 }
 
+function inputHandler(e) {
+  updateError(
+    e.target.name === "email",
+    emailRegExp.test(e.target.value),
+    "Invalid Email"
+  );
+}
+
+function inputPasswordHandler(e) {
+  const password = document.querySelector('[name="password"]');
+  const confirm = document.querySelector('[name="confirm-password"]');
+  updateError(
+    e.target.name === "password",
+    passwordRegExp.test(e.target.value),
+    "8–16 chars, uppercase, lowercase, number & special (!@#$%^&.)"
+  );
+  updateError(
+    e.target.name === "confirm-password",
+    confirm.value === password.value,
+    "Passwords do not match"
+  );
+}
 function submitHandler(e) {
   e.preventDefault();
   const person = new Person(...arrInput);
@@ -81,4 +105,5 @@ function submitHandler(e) {
 }
 
 form.addEventListener("input", inputHandler);
+form.addEventListener("input", inputPasswordHandler);
 form.addEventListener("submit", submitHandler);

@@ -22,7 +22,7 @@ body {
   justify-content:space-around;
   align-items: center;
   width: 620px;
-  height: 620px;
+  height: auto;
   background-color: #3ea9f5;
   margin-top: 50px;
   gap: 25px;
@@ -80,6 +80,6 @@ button:hover{
     background-color: white;
 }
 
-.error-message.invalid{
+.invalid{
     visibility: visible;
 }

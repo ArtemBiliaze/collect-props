@@ -24,5 +24,16 @@ export const inputsArray = [
     placeholder: "Email Address",
     autocomplete: "email",
   },
-];
-
+  {
+    type: "password",
+    name: "password",
+    placeholder: "Password",
+    autocomplete: "off",
+  },
+  {
+    type: "password",
+    name: "confirm-password",
+    placeholder: "Password Confirmation",
+    autocomplete: "off",
+  }
+]
